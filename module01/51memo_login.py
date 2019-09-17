@@ -49,7 +49,6 @@ class MemoAdmin:
         one = Memo(name, thing, date)
         b = self.load()
         if len(b) == 0:
-            #a = one.id  # =>@property
             one.id2 = 0  # =>@id.setter
         else:
             one.id = b[-1].id
@@ -124,14 +123,10 @@ class MemoAdmin:
         """
         pdf_list = []
         data = self.load()
-        # print(data)
         for x in data:
             pdf_list.append(f'id:{x.id}, name:{x.name}, thing:{x.thing}, date:{x.date}')
-        # print(pdf_list)
         pdf_obj = ExportPDF(pdf_list, 'history.pdf')
         pdf_obj.save_string()
-
-            # print(type(pdf))
 
     def logical_control(self, admin):
         "流程控制Logical Control "
@@ -233,7 +228,7 @@ class LogRegCon:
                 try:
                     data = pickle.load(f)
                     user_list.append(data)
-                    print(data)
+                    # print(data)
                 except Exception as f:
                     break
         user_name = input('请输入用户名:')
@@ -247,8 +242,7 @@ class LogRegCon:
                     config = configparser.ConfigParser()
                     config.read('common.ini')
                     file_name = config[user_name]['file_path']
-                    print(file_name)
-                    # print(config.sections())
+                    # print(file_name)
                     return file_name
                 else:
                     print('密码错误！请重新输入')
@@ -262,50 +256,16 @@ class LogRegCon:
         user_info = {}
         user_info['user_name'] = input('请输入用户名:')
         user_info['password'] = input('请输入密码:')
-        print(user_info)
+        # print(user_info)
         with open('users1.pkl','ab') as f:
             pickle.dump(user_info, f)
         self.add_config(user_info['user_name'], base_dir)
             
-        # try:
-        #     user_info = {}
-        #     user_info['user_name'] = input('请输入用户名:')
-        #     # # 判断你用户名格式是否正确
-        #     # re_user_name = re.compile(r'^[a-zA-Z][a-zA-Z0-9_]{4,15}$')
-        #     # match = re_user_name.match(user_info['user_name'])
-        #     # if match:
-        #     #     print('帐号不合法(字母开头，允许5-16字节，允许字母数字下划线)！')
-        #     #     register()
-        #     user_info['password'] = input('请输入密码:')
-        #     # # 判断密码格式是否正确
-        #     # re_password = re.compile(r'^[a-zA-Z]\w{5,17}$')
-        #     # match = re_password.match(user_info['password'])
-        #     # if match == user_info['password']:
-        #     #     print('密码不合法(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)！')
-        #     #     register()
-            
-        #     # print(user_info['user_name'])
-        #     # users_list.append(user_info)
-        #     with open('users.pkl','a') as f:
-        #         pickle.dumps(user_info, f)
-        # except Exception as f:
-        #     print(f)
-
     def add_config(self,user_name, base_dir):
         "添加配置文件,为备忘录数据指定路径和文件名"
-        # config = configparser.ConfigParser()
         config = configparser.ConfigParser(interpolation=configparser.ExtendedInterpolation())
         file_name = user_name + '.pkl'
-        # base_dir = 'C:\PythonLearn\code\module-3\work',
         file_path = os.path.join(base_dir, file_name)  # 备忘录路径
-        
-        
-        #     方法一：写配置
-        #     config[user_name] = {}
-        #     config[user_name]['file_path'] = file_path
-        #     config[user_name]['file_name'] = file_name
-        # else:
-        # 方法二：写配置
         config.add_section(user_name)
         config.set(user_name,'file_path', file_path)
         config.set(user_name,'file_name', file_name)
@@ -344,10 +304,6 @@ class LogRegCon:
                 else:
                     print('没有这个操作！')
                     continue
-            # try:
-            # except Exception as f:
-            #     # print("输入有误请重新输入！")
-            #     print(f)
 
 def main():
     l = LogRegCon()
